@@ -4,6 +4,11 @@ import os
 import firebase_admin
 from firebase_admin import credentials, firestore
 
+"""
+Run this file with this command:
+python3 importspaces.py data/vendorspaces/2023_spaces.xlsx
+"""
+
 # Replace with the path to your service account key JSON file
 cred = credentials.Certificate("environments/gomad-craft-show-firebase-adminsdk-uzbiz-133156689e.json")
 
@@ -49,7 +54,7 @@ def excel_to_csv(excel_file):
 #     location: Location;
 #     /* `vendor` is a reference to the vendor who owns this space and may be null in the
 #      * case that no vendor has applied for the space yet. */
-#     vendor?: Vendor;    
+#     vendor: Vendor | null;
 # }
 
 def process_data(csv_file) -> list[dict]:
@@ -64,6 +69,7 @@ def process_data(csv_file) -> list[dict]:
             "name": row["Space Name"],
             "fee": row["Fee"],
             "location": row["Location"],
+            "vendor": None
         }
         vendorSpaces.append(space)
     
